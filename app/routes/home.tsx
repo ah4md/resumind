@@ -1,45 +1,27 @@
-import NavBar from "~/components/NavBar";
-import type { Route } from "./+types/home";
-import { resumes } from "~/constants";
-import { ResumeCard } from "~/components/ResumeCard";
-import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router";
-import { usePuterStore } from "~/lib/puter";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Resumind" },
-    { name: "description", content: "Smart Feedback for your dream job!" },
-  ];
+import React from "react";
+import Navbar from "~/components/NavBar";
+import { Link } from "react-router-dom";
+export async function loader() {
+  return null;
 }
 
-export default function Home() {
-  const { isLoading, auth } = usePuterStore();
-  const location = useLocation();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!auth.isAuthenticated) {
-      navigate(`/auth?next=${location.pathname}`);
-    }
-  }, [auth.isAuthenticated]);
-
+const Home = () => {
   return (
     <main className="bg-[url('/images/bg-main.svg')] bg-cover min-h-screen">
-      <NavBar />
+      <Navbar />
       <section className="main-section">
         <div className="page-heading py-16">
-          <h1>Track Your Applications and Resume Ratings</h1>
-          <h2>Review your submissions and check AI-powered feedback.</h2>
-        </div>
-
-        {resumes.length > 0 && (
-          <div className="resumes-section">
-            {resumes.map((resume) => (
-              <ResumeCard key={resume.id} resume={resume} />
-            ))}
+          <h1>Smart feedback for your dream job</h1>
+          <h2>Drop your resume for an ATS score and improvement tips</h2>
+          <div className="mt-8">
+            <Link to="/upload" className="primary-button">
+              Get Started
+            </Link>
           </div>
-        )}
+        </div>
       </section>
     </main>
   );
-}
+};
+
+export default Home;
